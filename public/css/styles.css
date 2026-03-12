@@ -1,8 +1,9 @@
 /* Header */
 .site-header {
-    background-color: #333;
-    color: #fff;
+    background-color: var(--vista-blue);
+    color: var(--white);
     padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .header-container {
