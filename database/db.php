@@ -5,11 +5,11 @@ require_once __DIR__ . '/../config/env.php';
 $env = loadEnv(__DIR__ . '/../.env');
 
 
-$dbname = 'Your_DB_Name';
+$dbname = 'kvitter';
 $hostname = 'localhost';
 
 $DB_USER = $env['DB_USER'] ?? 'root';
-$DB_PASSWORD = $env['DB_PASS']?? 'root';
+$DB_PASSWORD = $env['DB_PASS']?? 'Root';
 
 try {
     $dbconn = new PDO(
