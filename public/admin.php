@@ -27,9 +27,7 @@ if (isset($_GET['delete_user'])) {
     } else {
         $error = 'Du kan inte ta bort ditt eget konto här. Gå till profilen.';
     }
-    else{
-        $error = 
-    }
+    
 }
 $title = 'Adminpanel';
 include '../includes/header.php';
@@ -46,12 +44,12 @@ include '../includes/header.php';
                 <div class="row mb-4">
                     <div class="col-md-4">
                         <div class="card text-white bg-primary">
-                            <div class="card-body">👥 Användare: <?= $totalUsers ?></div>
+                            <div class="card-body"> Användare: <?= $totalUsers ?></div>
                         </div>
                     </div>
                     <div class="col-md-4">
                         <div class="card text-white bg-info">
-                            <div class="card-body">💬 Totalt kvitter: <?= $totalKvitter ?></div>
+                            <div class="card-body">Totalt kvitter: <?= $totalKvitter ?></div>
                         </div>
                     </div>
                 </div>
