@@ -1,63 +1,27 @@
-/* Header */
-.site-header {
-    background-color: var(--vista-blue);
-    color: var(--white);
-    padding: 15px 0;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.header-container {
-    max-width: 1000px;
-    margin: 0 auto;
+body {
+    min-height: 100vh;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    background: #cad3e4;
 }
-
-.site-title a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.5em;
+.card {
+    border-radius: 12px;
+    transition: 0.2s;
 }
-
-/* Navigation */
-.site-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 15px;
-    margin: 0;
-    padding: 0;
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.1);
 }
-
-.site-nav a {
-    color: #fff;
-    text-decoration: none;
+.btn-primary {
+    background: #78A2D2;
+    border: none;
 }
-
-.site-nav a:hover {
-    color: #FFD700; /* Optional hover effect */
+.btn-primary:hover {
+    background: #2a7ddd;
 }
-
-/* Main content */
-.main-content {
-    max-width: 1000px;
-    margin: 20px auto;
-}
-
-/* Footer */
-.site-footer {
-    text-align: center;
-    padding: 20px;
-    background-color: #f0f0f0;
-    margin-top: 40px;
-}
-
-.site-footer a {
-    color: #333;
-    text-decoration: none;
-    margin: 0 5px;
-}
-
-.site-footer a:hover {
-    text-decoration: underline;
+@media (max-width: 768px) {
+    #clockCanvas {
+        width: 150px;
+        height: 150px;
+    }
 }
