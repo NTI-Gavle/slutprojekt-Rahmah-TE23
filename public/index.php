@@ -71,7 +71,7 @@ include '../includes/header.php';
                         <div class="d-flex justify-content-between">
                             <strong style="color:#78A2D2;"><?= escape($k['username']) ?></strong>
                             <?php if (is_logged_in() && ($_SESSION['user_id'] == $k['user_id'] || is_admin())): ?>
-                                <a href="?delete=<?= $k['id'] ?>" class="text-danger" onclick="return confirm('Ta bort?')">🗑️</a>
+                                <a href="?delete=<?= $k['id'] ?>" class="text-danger" onclick="return confirm('Ta bort?')">Radera</a>
                             <?php endif; ?>
                         </div>
                         <p><?= escape($k['content']) ?></p>
