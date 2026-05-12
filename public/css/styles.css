@@ -1,9 +1,3 @@
-/* 
- * Kvitter - Huvudstil
- * Färger: Vista Blue (#78A2D2) och Mindaro (#FEFFAF)
- */
-
-/* ========== VARIABLER (CSS Custom Properties) ========== */
 :root {
     --vista-blue: #78A2D2;
     --vista-blue-dark: #5a8bc2;
