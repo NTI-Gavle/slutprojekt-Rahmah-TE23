@@ -1,10 +1,8 @@
--- Rensa och skapa databas
-DROP DATABASE IF EXISTS kvitter;
-CREATE DATABASE kvitter;
+CREATE DATABASE IF NOT EXISTS kvitter;
 USE kvitter;
 
--- Tabell: users
-CREATE TABLE users (
+
+CREATE TABLE IF NOT EXISTS users (
     id INT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(50) UNIQUE NOT NULL,
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -13,8 +11,8 @@ CREATE TABLE users (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
--- Tabell: kvitter
-CREATE TABLE kvitter (
+
+CREATE TABLE IF NOT EXISTS kvitter (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     content TEXT NOT NULL,
@@ -22,16 +20,19 @@ CREATE TABLE kvitter (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
--- Testanvändare (lösenord: 123456)
-INSERT INTO users (username, email, password, role) VALUES 
-('testuser', 'test@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user');
 
--- Admin (lösenord: 123456 - samma som testuser)
-INSERT INTO users (username, email, password, role) VALUES 
-('admin', 'admin@kvitter.se', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin');
+CREATE TABLE IF NOT EXISTS likes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    kvitter_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (kvitter_id) REFERENCES kvitter(id) ON DELETE CASCADE,
+    UNIQUE KEY unique_like (user_id, kvitter_id)
+);
 
--- Några test-kvitter
-INSERT INTO kvitter (user_id, content) VALUES 
-(1, 'Välkommen till Kvitter! Detta är admin.'),
-(2, 'Hej världen! Mitt första kvitter.'),
-(2, 'Kvitter är roligt! #test');
+SELECT k.id, k.content, COUNT(l.id) as likes_count 
+FROM kvitter k 
+LEFT JOIN likes l ON k.id = l.kvitter_id 
+GROUP BY k.id;
+
