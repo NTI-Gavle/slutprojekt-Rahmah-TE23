@@ -1,5 +1,3 @@
-<?php include '../includes/footer.php'; ?>
-
 <?php
 require_once '../config/session.php';
 require_once '../includes/functions.php';
@@ -99,3 +97,5 @@ include '../includes/header.php';
         </div>
     </div>
 </div>
+
+<?php include '../includes/footer.php'; ?>
