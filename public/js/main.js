@@ -191,8 +191,6 @@ document.addEventListener('DOMContentLoaded', function() {
     console.log('Kvitter JS laddad! ');
 });
 
-
-
 const likeButtons = document.querySelectorAll('a[href*="like="], a[href*="unlike="]');
 likeButtons.forEach(btn => {
     btn.addEventListener('click', function(e) {
