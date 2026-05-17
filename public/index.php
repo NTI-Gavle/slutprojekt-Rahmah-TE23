@@ -1,3 +1,5 @@
+<?php include '../includes/footer.php'; ?>
+
 <?php
 require_once '../config/session.php';
 require_once '../includes/functions.php';
@@ -6,7 +8,8 @@ require_once '../database/kvitter_queries.php';
 $title = 'Hem';
 $error = $success = '';
 
-if (isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+
+if (isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['content'])) {
     $content = $_POST['content'] ?? '';
     if (createKvitter($_SESSION['user_id'], $content)) {
         $success = 'Kvitter publicerat!';
@@ -14,6 +17,7 @@ if (isset($_SESSION['user_id']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Kunde inte publicera.';
     }
 }
+
 
 if (isset($_GET['delete']) && isset($_SESSION['user_id'])) {
     $id = (int)$_GET['delete'];
@@ -23,12 +27,32 @@ if (isset($_GET['delete']) && isset($_SESSION['user_id'])) {
     }
 }
 
-$kvitter = getAllKvitter();
+
+if (isset($_GET['like']) && isset($_SESSION['user_id'])) {
+    $kvitterId = (int)$_GET['like'];
+    if (!hasUserLiked($_SESSION['user_id'], $kvitterId)) {
+        addLike($_SESSION['user_id'], $kvitterId);
+    }
+    header('Location: index.php');
+    exit;
+}
+
+if (isset($_GET['unlike']) && isset($_SESSION['user_id'])) {
+    $kvitterId = (int)$_GET['unlike'];
+    removeLike($_SESSION['user_id'], $kvitterId);
+    header('Location: index.php');
+    exit;
+}
+
+
+$userId = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
+$kvitter = getAllKvitterWithLikes($userId);
+
 include '../includes/header.php';
 ?>
 
 <div class="row">
-    <!-- Vänster kolumn - Canvas klocka -->
+    
     <div class="col-lg-3 mb-4">
         <div class="card shadow">
             <div class="card-header" style="background: #78A2D2; color: white;">
@@ -36,12 +60,11 @@ include '../includes/header.php';
             </div>
             <div class="card-body text-center">
                 <canvas id="clockCanvas" width="200" height="200"></canvas>
-                <p class="mt-2 small text-muted">Ritad i Canvas med JavaScript</p>
             </div>
         </div>
         
         <?php if (isset($_SESSION['user_id'])): ?>
-            <div class="card shadow mt-4" style="border-top: 4px solid #78A2D2;">
+            <div class="card shadow mt-4">
                 <div class="card-body text-center">
                     <i class="fas fa-user-circle fa-3x" style="color: #78A2D2;"></i>
                     <h5 class="mt-2"><?= htmlspecialchars($_SESSION['username']) ?></h5>
@@ -53,7 +76,7 @@ include '../includes/header.php';
         <?php endif; ?>
     </div>
 
-    <!-- Mittenkolumn - Flöde -->
+    
     <div class="col-lg-6">
         <?php if (isset($_SESSION['user_id'])): ?>
             <div class="card shadow mb-4">
@@ -71,9 +94,7 @@ include '../includes/header.php';
                         <textarea name="content" class="form-control" rows="3" maxlength="280" placeholder="Vad händer? (max 280 tecken)" required></textarea>
                         <div class="d-flex justify-content-between mt-2">
                             <small id="charCount" class="text-muted">0/280</small>
-                            <button type="submit" class="btn" style="background: #78A2D2; color: white;">
-                                <i class="fas fa-paper-plane me-2"></i>Publicera
-                            </button>
+                            <button type="submit" class="btn" style="background: #78A2D2; color: white;">Publicera</button>
                         </div>
                     </form>
                 </div>
@@ -81,9 +102,7 @@ include '../includes/header.php';
         <?php endif; ?>
 
         <div class="card shadow">
-            <div class="card-header" style="background: #78A2D2; color: white;">
-                <i class="fas fa-stream me-2"></i>Senaste kvittren
-            </div>
+            <div class="card-header" style="background: #78A2D2; color: white;">Senaste kvittren</div>
             <div class="card-body">
                 <?php if (empty($kvitter)): ?>
                     <p class="text-center text-muted py-4">
@@ -112,7 +131,30 @@ include '../includes/header.php';
                                     </a>
                                 <?php endif; ?>
                             </div>
-                            <p class="mt-2 mb-0"><?= nl2br(htmlspecialchars($k['content'])) ?></p>
+                            
+                            <p class="mt-2 mb-2"><?= nl2br(htmlspecialchars($k['content'])) ?></p>
+                            
+                            
+                            <div class="d-flex align-items-center mt-2">
+                                <?php if (isset($_SESSION['user_id'])): ?>
+                                    <?php if ($k['user_liked'] > 0): ?>
+                                        <a href="?unlike=<?= $k['id'] ?>" class="text-danger me-2" style="text-decoration: none;">
+                                            <i class="fas fa-heart"></i>
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="?like=<?= $k['id'] ?>" class="text-muted me-2" style="text-decoration: none;">
+                                            <i class="far fa-heart"></i>
+                                        </a>
+                                    <?php endif; ?>
+                                <?php else: ?>
+                                    <span class="text-muted me-2">
+                                        <i class="far fa-heart"></i>
+                                    </span>
+                                <?php endif; ?>
+                                <span class="small" style="color: #78A2D2;">
+                                    <?= $k['likes_count'] ?> gilla-markeringar
+                                </span>
+                            </div>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -120,7 +162,7 @@ include '../includes/header.php';
         </div>
     </div>
 
-    <!-- Högerkolumn - Information -->
+   
     <div class="col-lg-3">
         <div class="card shadow">
             <div class="card-header" style="background: #78A2D2; color: white;">
@@ -132,39 +174,15 @@ include '../includes/header.php';
                 <ul class="list-unstyled small">
                     <li><i class="fas fa-check" style="color: #78A2D2;"></i> Skapa kvitter</li>
                     <li><i class="fas fa-check" style="color: #78A2D2;"></i> Ta bort dina inlägg</li>
+                    <li><i class="fas fa-check" style="color: #78A2D2;"></i> Gilla andras inlägg</li>
                     <li><i class="fas fa-check" style="color: #78A2D2;"></i> Admin-hantering</li>
                     <li><i class="fas fa-check" style="color: #78A2D2;"></i> GDPR-säkert</li>
                 </ul>
             </div>
         </div>
         
-        <div class="card shadow mt-4" style="background: #FEFFAF;">
-            <div class="card-body">
-                <i class="fas fa-lightbulb me-2" style="color: #78A2D2;"></i>
-                <strong>Tips!</strong>
-                <p class="small mb-0 mt-1">Du kan skriva upp till 280 tecken per kvitter.</p>
-            </div>
+        
         </div>
     </div>
 </div>
 
-<script>
-// Teckenräknare
-const textarea = document.querySelector('textarea[name="content"]');
-const charCount = document.getElementById('charCount');
-if (textarea) {
-    textarea.addEventListener('input', function() {
-        const count = this.value.length;
-        charCount.textContent = count + '/280';
-        if (count > 250) {
-            charCount.style.color = '#dc3545';
-        } else if (count > 200) {
-            charCount.style.color = '#ffc107';
-        } else {
-            charCount.style.color = '#6c757d';
-        }
-    });
-}
-</script>
-
-<?php include '../includes/footer.php'; ?>

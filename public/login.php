@@ -32,7 +32,7 @@ include '../includes/header.php';
     <div class="col-md-5">
         <div class="card shadow">
             <div class="card-header text-center py-3" style="background: #78A2D2; color: white;">
-                <i class="fas fa-sign-in-alt fa-2x"></i>
+                
                 <h4 class="mt-2 mb-0">Logga in</h4>
             </div>
             <div class="card-body">
@@ -48,9 +48,7 @@ include '../includes/header.php';
                         <label class="form-label">Lösenord</label>
                         <input type="password" name="password" class="form-control" required>
                     </div>
-                    <button type="submit" class="btn w-100" style="background: #78A2D2; color: white;">
-                        <i class="fas fa-sign-in-alt me-2"></i>Logga in
-                    </button>
+                    <button type="submit" class="btn w-100" style="background: #78A2D2; color: white;">Logga in</button>
                 </form>
                 <hr>
                 <p class="text-center mb-0">

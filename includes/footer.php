@@ -11,7 +11,6 @@
     </div>
 </footer>
 
-<!-- GDPR Modal -->
 <div class="modal fade" id="gdprModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -37,7 +36,5 @@
         </div>
     </div>
 </div>
-
-
 </body>
 </html>

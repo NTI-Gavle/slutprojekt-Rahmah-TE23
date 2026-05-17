@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark" style="background: #78A2D2;">
     <div class="container">
         <a class="navbar-brand" href="index.php">
-            <i class="fas fa-dove me-2" style="color: #FEFFAF;"></i>
+           
             <span style="color: white; font-weight: bold;">KVITTER</span>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar">
