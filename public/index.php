@@ -150,7 +150,7 @@ include '../includes/header.php';
                                     </span>
                                 <?php endif; ?>
                                 <span class="small" style="color: #78A2D2;">
-                                    <?= $k['likes_count'] ?> gilla-markeringar
+                                    <?= $k['likes_count'] ?> 
                                 </span>
                             </div>
                         </div>
