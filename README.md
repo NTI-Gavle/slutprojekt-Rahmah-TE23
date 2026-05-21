@@ -1,28 +1,55 @@
-# PHP Home Project Template
+[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/JXuiURJJ)
+#  Kvitter - En mikrobloggplattform
 
-A minimal, reusable PHP project template for small home projects, learning, or prototyping. Includes **reusable header, footer, navigation, database connection, `.env` support, user queries, and a contact form**.  
+[![PHP Version](https://img.shields.io/badge/PHP-8.0%2B-blue.svg)](https://php.net)
+[![MySQL](https://img.shields.io/badge/MySQL-5.7%2B-orange.svg)](https://mysql.com)
+[![Bootstrap](https://img.shields.io/badge/Bootstrap-5.3-purple.svg)](https://getbootstrap.com)
 
-This template is designed to help you quickly start a PHP project with a clean structure, modern best practices, and modular code.
+##  Om Projektet
+
+**Kvitter** är en social medieplattform inspirerad av Twitter där användare kan dela korta meddelanden (kvitter). Projektet är utvecklat som ett slutprojekt för kurserna **Webbutveckling 2** och **Webbserverprogrammering 1** och uppfyller samtliga krav för **C-nivå**.
+
+Live-demo: `http://localhost/weuweb2/slutprojekt/slutprojekt-Rahmah-TE23/public/`
+
+---
+
+## Funktioner
+
+ Funktion = Beskrivning 
+
+ **Användarhantering** = Registrering, inloggning, profil med statistik 
+  **Kvitter** = Skapa, visa och ta bort korta inlägg (max 280 tecken) 
+ **Like/Gilla** = Användare kan gilla andras kvitter 
+  **Admin-panel** = Hantera användare, ta bort konton, se statistik 
+  **Digital klocka** = Canvas-ritad klocka som uppdateras varje sekund 
+  **Säkerhet** = XSS-skydd, SQL-injection skydd, CSRF-tokens, hashade lösenord 
+  **Responsiv design** = Fungerar på mobil, surfplatta och dator 
+  **GDPR** = Godkännande vid registrering, rätt att bli bortglömd 
 
 ---
 
-## Features
+##  Design & Färger
 
-- Reusable **header, footer, and navigation**
-- Dynamic page titles for each page
-- `.env` support for storing database credentials
-- Database connection using **PDO**
-- `user_queries.php` for reusable user-related queries
-- Simple **contact form** with server-side validation
-- External CSS (`styles.css`) and JS (`app.js`) with deferred loading
-- Lightweight and framework-free
-- Modular and easy to extend
+ Färg = HEX = Användning 
 
----
+| **Vista Blue** - `#78A2D2` - Primärfärg - navbar, knappar, headers 
+| **Mindaro** - `#FEFFAF` - Sekundärfärg - hover-effekter, accenter 
+
+### Typografi
+ Element - Storlek - Vikt 
+
+Logotyp "KVITTER"  28px  Fet 
+Rubriker - 24px - Fet 
+Brödtext - 16px - Normal 
+ Navigering - 16px - Normal 
+
+
+
+
 
 ## Folder Structure
 ```
-project/
+slutprojekt /
 ├── config/
 │ └── env.php # Function to read .env files
 ├── database/
@@ -67,7 +94,7 @@ Use the template
 Copy .env.example to .env and update the database credentials:
 
 DB_USER=root
-DB_PASS=root
+DB_PASS=Root
 
 Keep .env out of version control. Never commit it with real credentials.
 

@@ -1,25 +1,19 @@
 <?php
-require_once __DIR__ . '/../config/env.php';
-
-// Load the .env file
-$env = loadEnv(__DIR__ . '/../.env');
-
-
-$dbname = 'Your_DB_Name';
-$hostname = 'localhost';
-
-$DB_USER = $env['DB_USER'] ?? 'root';
-$DB_PASSWORD = $env['DB_PASS']?? 'root';
-
-try {
-    $dbconn = new PDO(
-        "mysql:host=$hostname;dbname=$dbname;charset=utf8mb4",
-        $DB_USER,
-        $DB_PASSWORD
-    );
-    echo 'Connected to database'; // Remove after it works
-    $dbconn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+function getDB() {
+    static $db = null;
+    if ($db === null) {
+        try {
+            $host = 'localhost';
+            $dbname = 'kvitter';
+            $user = 'root';
+            $pass = 'Root';
+            $db = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $user, $pass);
+            $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Databasfel: " . $e->getMessage());
+        }
+    }
+    return $db;
 }
-catch(PDOException $e){
-    echo 'Connection failed: ' . $e->getMessage();
-}
+?>
